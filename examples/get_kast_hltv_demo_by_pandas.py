@@ -25,22 +25,28 @@ import pandas as pd
 import operator
 from typing import Dict, List, Tuple, Union
 import sys
+import logging
+logging.disable(sys.maxsize) # Python 3
+import os
 
 """## Парсинг демки"""
 
 # Путь к файлу с демкой
 fname = None
+
 if len(sys.argv) > 1:
     fname = sys.argv[1]
-else:
-    fname = input('Введите путь до демки:')
-if fname is None:
-    print('Путь к демки не определен')
-    sys.exit()
     
-import logging
-logging.disable(sys.maxsize) # Python 3
+
+if fname and False == os.path.isfile(fname):
+    print(f'Файл "{fname}" не найден!')
+    sys.exit()  
+
+if fname is None and False == os.path.isfile('DEMO_ID.json'):
+    print(f'Файла "DEMO_ID.json" для парсинга тоже нет!')
+    sys.exit()   
     
+# Парсинг демки        
 demo_parser = DemoParser(
     demofile = fname, 
     demo_id = 'DEMO_ID', 
